@@ -1,0 +1,628 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+  <base>
+  <title>信息管理</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+  <meta http-equiv="description" content="This is my page">
+  <title>信息管理</title>
+  <link rel="stylesheet" type="text/css" href="../static/css/reset.css"/>
+  <script src="../static/js/jquery.js"></script>
+  <script src="../static/js/IM-index.js"></script>
+  <link rel="stylesheet" type="text/css" href="../static/css/IM-index.css"/>
+
+  <script src="../static/angular.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../static/pagination.css"/>
+  <script src="../static/pagination.js"></script>
+  <link rel="stylesheet" type="text/css" href="../static/bootstrap.min.css"/>
+
+  <script src="../static/IMService.js"></script>
+
+  <style>
+    html, body {
+      height: 100%;
+    }
+  </style>
+  <script type="text/javascript">
+
+   /* $(function () {
+
+      //所有的毒素信息
+
+      //农作物种类
+      $.getJSON("/findCropSpecies",{},function (data) {
+        var crop = "<option value=''>请选择</option>"
+        for (var i=0; i<data.length; i++){
+              crop += "<option value='"+data[i].id+"'>"+data[i].cropSpecies+"</option>";
+        }
+      $("#crop_species").html(crop);
+      })
+
+      //所有的省信息
+      $.getJSON("/findAddressProvince",{},function (data) {
+        var province = "<option value=''>请选择</option>"
+        for (var i=0 ; i<data.length; i++){
+            province += "<option value='"+data[i].code+"'>"+data[i].name+"</option>";
+        }
+        $("#shen").html(province)
+      })
+
+      $("#shen").change(function () {
+        //根据省选中对应的市的信息
+        var code = $("#shen").val();
+        $.getJSON("/findAddressCity",{},function (data) {
+          var city = "<option value=''>请选择</option>"
+          for (var i=0; i<data.length; i++){
+            city += "<option value='"+data[i].code+"'>"+data[i].name+"</option>";
+          }
+          $("#shi").html(city)
+          $("#xian").html("<option value=''>请选择</option>");
+        })
+     })
+      $("#shi").change(function () {
+        //根据市选中所对应的县
+        var code =$("#shi").val();
+        $.getJSON("/findAddressTown",{},function (data) {
+          var town = "<option value=''>请选择</option>"
+          for (var i=0; i<data.length; i++){
+            town += "<option value='"+data[i].code+"'>"+data[i].name+"</option>";
+          }
+        $("#xian").html(town)
+        })
+      })
+    })
+    $(function () {
+     /* $.ajax({
+        url:"/findAllAjax",
+        data:{
+
+        },
+        type:"get",
+        dataType:"json",
+        success:function (result) {
+          yar list =result.list;
+          yar sample ="";
+          for (var i = 0; i < list.length ; i++) {
+            var samp = list[i];
+            sample += '  <tr>\n' +
+                    '<td><input class="testyangpin" value="'+samp.id+'" type="checkbox"></td>\n' +
+                    '<td class="ybbh">'+samp.sampleId+'</td>\n' +
+                    '<td>'+samp.addressProvince.name+'--'+samp.addressCity.name+'--'+samp.addressTown.name+'</td>\n' +
+                    '<td>'+samp.cropSpecies.cropSpecies+'</td>\n' +
+                    '<td>'+samp.samplingTime+'</td>\n' +
+                    '<td>'+samp.harvestTime+'</td>\n' +
+                    '<td>'+samp.pollutionRate+'%</td>\n' +
+                    '<td>'+samp.sampleToxinInfo.toxinType+'</td>\n' +
+                    '<td><a href="editIM.html">编辑</a> |<a href="javascript:if(confirm(\'确实要删除吗?\'))location=\'/glory/rest/iddeleteyangpin?id=754\'">删除</a></td>\n' +
+                    '</tr>'
+
+          }
+
+          $("#tbody").html(sample);
+          var prePage = result.pageNum == 1?1:result.pageNum-1;
+          var nextPage = result.pageNum == result.pages ?result.pages:result.pageNum+1;
+          var page = ' <li class="im-indexpage"><a onclick="realList(1)">首页</a></li>\n' +
+                  '    <li class="im-nextpage"><a onclick="realList('+prePage+')">上一页</a></li>\n' +
+                  '    <li class="im-nextpage"><a onclick="realList('+nextPage+')">下一页</a></li>\n' +
+                  '    <li class="im-indexpage"><a onclick="realList('+result.pages+')">尾页</a></li>'
+
+          }
+
+      })
+      reaList(1);
+    })  */
+    /*function realList(pageNum){
+        if (pageNum ==null || pageNum ==""){
+          pageNum = 1
+        }
+        $.ajax({
+          url:"/findAllAjax",
+          data:{
+            "pageNum":pageNum
+          },
+          type:"get",
+          dataType:"json",
+          success: function (result) {
+            var sample = "";
+            var list = result.list;
+            for (var i = 0; i < list.length ; i++) {
+              var samp = list[i];
+              sample += '  <tr>\n' +
+                      '<td><input class="testyangpin" value="'+samp.id+'" type="checkbox"></td>\n' +
+                      '<td class="ybbh">'+samp.sampleId+'</td>\n' +
+                      '<td>'+samp.addressProvince.name+'--'+samp.addressCity.name+'--'+samp.addressTown.name+'</td>\n' +
+                      '<td>'+samp.cropSpecies.cropSpecies+'</td>\n' +
+                      '<td>'+samp.samplingTime+'</td>\n' +
+                      '<td>'+samp.harvestTime+'</td>\n' +
+                      '<td>'+samp.pollutionRate+'%</td>\n' +
+                      '<td>'+samp.sampleToxinInfo.toxinType+'</td>\n' +
+                      '<td><a href="editIM.html">编辑</a> |<a href="javascript:if(confirm(\'确实要删除吗?\'))location=\'/glory/rest/iddeleteyangpin?id=754\'">删除</a></td>\n' +
+                      '</tr>'
+
+            }
+
+            $("#tbody").html(sample);
+            var prePage = result.pageNum == 1?1:result.pageNum-1;
+            var nextPage = result.pageNum == result.pages ?result.pages:result.pageNum+1;
+            var page = ' <li class="im-indexpage"><a onclick="realList(1)">首页</a></li>\n' +
+                    '    <li class="im-nextpage"><a onclick="realList('+prePage+')">上一页</a></li>\n' +
+                    '    <li class="im-nextpage"><a onclick="realList('+nextPage+')">下一页</a></li>\n' +
+                    '    <li class="im-indexpage"><a onclick="realList('+result.pages+')">尾页</a></li>'
+
+            $("#pages").html(page);
+          }
+        })
+    }*/
+
+
+    /*function reaList(pageNum) {
+      if (pageNum == null || pageNum == "") {
+        pageNum = 1;
+      }
+      var formData = $("#form1").serialize(); //表单序列化
+      // 1.拼接
+      var datas = formData.split("&");
+      var form = [];
+      form.push("pageNum=" + pageNum);
+      for (var i = 0; i < datas.length; i++) {
+        var data = datas[i].split("=");
+        if (data[i] != null && data[i] != "") {
+          form.push(datas[i]);
+        }
+      }
+      $.ajax({
+        url: "/findAllAjax",
+        data: form.join("&"),
+        type: "get",
+        dataType: "json",
+        success: function (data) {
+          var list = data.list;
+          var sample = "";
+          for (var i = 0; i < list.length; i++) {
+            var samp = list[i];
+            sample += ' <tr>\n' +
+                    '<td><input class="testyangpin" value="' + samp.id + '" type="checkbox"></td>\n' +
+                    '<td class="ybbh">' + samp.sampleId + '</td>\n' +
+                    '<td>' + samp.addressProvince.name + '--' + samp.addressCity.name + '--' + samp.addressTown.name + '</td>\n' +
+                    '<td>' + samp.cropSpecies.cropSpecies + '</td>\n' +
+                    '<td>' + samp.samplingTime + '</td>\n' +
+                    '<td>' + samp.harvestTime + '</td>\n' +
+                    '<td>' + samp.pollutionRate + '%</td>\n' +
+                    '<td>' + samp.sampleToxinInfo.toxinType + '</td>\n' +
+                    '<td><a href="editIM.html">编辑</a> |<a href="javascript:if(confirm(\'确实要删除吗?\'))location=\'/glory/rest/iddeleteyangpin?id=754\'">删除</a></td>\n' +
+                    '</tr>'
+          }
+          $("#tbody").html(sample); //替换
+          $("#tobody").append(sample); //追加
+          var prePage = data.pageNum == 1 ? 1 : data.pageNum - 1;
+          var nextPage = data.pageNum == data.pages ? data.pages : data.pageNum + 1;
+          var page = ' <li class="im-indexpage"><a onclick="realList(1)">首页</a></li>\n' +
+                  '<li class="im-nextpage"><a onclick="realList(' + prePage + ')">上一页</a></li>\n' +
+                  '<li class="im-nextpage"><a onclick="realList(' + nextPage + ')">下一页</a></li>\n' +
+                  '<li class="im-indexpage"><a onclick="realList(' + data.pages + ')">尾页</a></li>';
+
+          // $("#pages").append(page);
+          $("#pages").html(page);
+        }
+      })
+    }*/
+
+
+     /*function exportExcel() {
+      var f = prompt("请输入文件名称")
+      window.location.href = "/exportExcel?fileName"+f;
+    } */
+
+
+   /* function readerExcel() {
+
+      var file = $("#file")[0].files[0];
+      var forData = new   FormData();
+      forData.append("fileFirst",file);
+      console.log(file);
+      $.ajax({
+        url:"/readerExcel",
+        type:"post",
+        data:forData,
+        dataType:"json",
+        async:true,   //是否异步
+        cache:false,  //是否从缓存中读取文件
+        processData:false, // 对data参数进行序列化处理  这里为false
+        contentType:false,  //是否使用的头信息
+        success:function (data) {
+          history.go(0)
+        }
+      })
+    } */
+
+    var app =angular.module("myapp",["pagination","IMService"]);
+    app.controller("myct1",function ($scope,$http,$Service) {
+      $scope.pageUtil={
+        currentPage: 1,  				//当前页
+        totalItems: 5,					//总记录数
+        itemsPerPage: 5,				//每页记录数
+        perPageOptions: [5, 10, 15, 20, 25], //分页选项，下拉选择一页多少条记录
+        onChange: function () {			//页面变更后触发的方法
+          $scope.realList($scope.pageUtil.currentPage,$scope.pageUtil.itemsPerPage);		//启动就会调用分页组件
+        }
+      }
+      $scope.entity={};
+      $scope.realList=function (pageNum,pageSize) {
+        var entity = $scope.entity;
+        entity.pageNum=pageNum;
+        entity.pageSize=pageSize;
+        console.log(entity)
+      $http.get("/findAllAjax",
+              {
+                params:
+                entity
+              }
+      ).success(function (data) {
+        $scope.list = data.list;
+        $scope.pageUtil.totalItems =data.total;
+        })
+      }
+
+      //毒素
+    $Service.find("/findAllSampleToxinInfo",{},"get").success(function (data) {
+      $scope.toxins = data;
+    });
+      //农作物种类
+      $Service.find("/findCropSpecies",{},"get").success(function (data) {
+        $scope.crops = data;
+      })
+
+      //省
+      $Service.find("/findAddressProvince",{},"get").success(function (data) {
+        $scope.province = data;
+      })
+      //市
+      $Service.changeCity=function () {
+        var code =$scope.entity.province
+        $Service.find("/findAddressCity",{"code":code},"get").success(function (data) {
+          $scope.city = data;
+        })
+      }
+      //县
+      $Service.changeCounty = function () {
+        var code =$scope.entity.city
+        $Service.find("/findAddressTown",{"code":code},"get").success(function (data) {
+          $scope.towns = data;
+        });
+      }
+
+    })
+  </script>
+
+</head>
+
+<body ng-app="myapp" ng-controller="myct1" ng-init="realList()">
+<a name="top"></a>
+<div class="contaner">
+  <div class="im-content">
+    <div class="im-heade">
+      <div class="imhead-title">当前页面：<a>信息管理</a></div>
+      <div class="imhead-select">
+        <form id="form1">
+        <ul>
+          <li class="bh">
+            <lable>样品编号</lable>
+            <input maxlength="15"name="sampleId" ng-model="entity.sampleid" onkeyup="this.value=this.value.replace(/\s+/g,'')" id="sample_id" value="" type="text">
+          </li>
+          <li class="wrl mright" ng-model="entity.wuranluv" name="wuranluv">
+            <lable>污染率</lable>
+            <select id="wuranluv">
+              <option value="">请选择</option>
+              <option value="0-20">0~20%</option>
+              <option value="20-40">20%~40%</option>
+              <option value="40-60">40%~60%</option>
+              <option value="60-80">60%~80%</option>
+              <option value="80-100">80%~100%</option>
+            </select>
+          </li>
+          <li class="time">
+            <lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时间</lable>
+            <input id="qaz" value="" type="hidden">
+            <select name="year" ng-model="entity.year" id="year" class="year">
+              <option value="0">请选择</option>
+              <option value="2020">2020</option>
+              <option value="2021">2021</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+              <option value="2028">2028</option>
+              <option value="2029">2029</option>
+              <option value="2030">2030</option>
+              <option value="2031">2031</option>
+              <option value="2032">2032</option>
+              <option value="2033">2033</option>
+              <option value="2034">2034</option>
+              <option value="2035">2035</option>
+              <option value="2036">2036</option>
+              <option value="2037">2037</option>
+              <option value="2038">2038</option>
+              <option value="2039">2039</option>
+              <option value="2040">2040</option>
+              <option value="2041">2041</option>
+              <option value="2042">2042</option>
+              <option value="2043">2043</option>
+              <option value="2044">2044</option>
+              <option value="2045">2045</option>
+              <option value="2046">2046</option>
+              <option value="2047">2047</option>
+              <option value="2048">2048</option>
+              <option value="2049">2049</option>
+              <option value="2050">2050</option>
+            </select>
+            <span> &nbsp;年</span>
+            <select name="month" id="month" ng-model="entity.month" class="month">
+              <option value="0">请选择</option>
+            </select>
+            <span> &nbsp;月 </span>
+            <select name="day" id="day" ng-model="entity.day" class="day">
+              <option value="0">请选择</option>
+            </select>
+            <span>&nbsp; 日</span> </li>
+          <li class="w mright yu">
+            <lable>主要污染菌种类</lable>
+            <select name="toxin_type" ng-model="entity.toxinType" class="mainSpecies" id="toxin_type">
+              <option value="">请选择</option>
+              <option ng-repeat="toxin in toxins" ng-value="toxin.id">{{toxin.toxinType}}</option>
+            </select>
+          </li>
+          <li class="w mright yu">
+            <lable>农作物种类</lable>
+            <select name="crop_species"  ng-model="entity.cropSpecies" class="nzw_spacies" id="crop_species">
+              <option value="">请选择</option>
+
+            </select>
+          </li>
+          <li class="place w">
+            <lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地点</lable>
+            <input type="hidden" value="" id="shengs">
+            <input type="hidden" value="" id="shisss">
+            <input type="hidden" value="" id="xiansss">
+            <input type="hidden" value="123" id="wsx">
+            <select name="province" ng-model="entity.province" ng-options="prov.code as prov.name for prov in province " class="province" id="shen" ng-change="changeCity()">
+              <option value="">请选择</option>
+            </select>
+            <span> &nbsp;省</span>
+            <select name="city" class="city"ng-model="entity.city" ng-options="city.code as city.name for city in citys" id="shi" ng-change="changeCounty()">
+              <option value="0">请选择</option>
+            </select>
+            <span> &nbsp;市</span>
+            <select name="county" class="county" ng-model="entity.county" ng-options="county.code as county.name for county in towns" id="xian">
+              <option value="0">请选择</option>
+            </select>
+            <span> &nbsp;县</span> </li>
+        </ul>
+        </form>
+        <div class="soso"><a ng-click="realList()">搜索</a></div>
+      </div>
+      <div class="oper">
+        <ul>
+          <li class="btn-top"> <a href="editIM-add.html" class="dt">新增单条</a>
+<!--
+            <form class="form-b" action="rest/excel/updateExcel" method="post" enctype="multipart/form-data" id="excelForm">
+-->
+              <input type="file" name="file" id="file" class="file-info-b  file-info-b-1" accept=".xlsx">
+              <a class="xz-btn-b xz-btn-b-1">选择文件</a>
+              <input type="text" name="" id="" value="" class="vall vall-1" readonly>
+              <input class="submit-b" onclick="readerExcel()" type="button" value="导入样品信息">
+<!--
+            </form>
+-->
+            <a class="mb">下载模板</a> <br>
+            <a class="pl">批量删除</a>
+            <!-- 产毒菌株信息的导入 -->
+            <form class="form-b" action="rest/excel/updateBacterialExcel" method="post" enctype="multipart/form-data" id="excelForm1">
+              <input type="file" name="file" class="file-info-b junzhu-a" accept=".xlsx">
+              <a class="xz-btn-b junzhu-b">选择文件</a>
+              <input type="text" name="" id="flag" value="" class="vall vall-c" readonly>
+              <input class="submit-b submit-c" type="button" value="导入菌株信息">
+            </form>
+            <a href="javascript:void(0)" class="dc">信息导出</a> </li>
+        </ul>
+      </div>
+    </div>
+    <div class="im-table">
+      <table>
+        <thead>
+        <tr>
+          <th class="w1"><input type="checkbox" id="checkbox1" value="">
+            全选</th>
+          <th class="w2">样品编号</th>
+          <th class="w3">地点</th>
+          <th class="w4">农产品加工类型</th>
+          <th class="w5">取样时间</th>
+          <th class="w6">录入时间</th>
+          <th class="w7">真菌污染率</th>
+          <th class="w8">主要毒素</th>
+          <th class="w9">操作</th>
+        </tr>
+        </thead>
+
+        <tbody id="tbody">
+
+        </tbody >
+      </table>
+    </div>
+    <div class="page"></div>
+  </div>
+</div>
+<!-- <link rel="stylesheet" type="text/css" href="../css/style.css"> -->
+<link type="text/css" rel="stylesheet" href="../static/css/paging.css">
+<style type="text/css">
+  .color a {
+    padding: 5px;
+    color: #4c4743;
+    /* font-size: 20px; */
+  }
+
+  .color a:hover {
+    color: #ed6c44;
+  }
+
+  /* .color2 {
+      float: right;
+      color: #4c4743;
+      font-size: 20px;
+      border: 1px black hidden;
+  } */
+
+  .color {
+    /* 	float: right; */
+    border: 1px black hidden;
+    width: 100%;
+    text-align: center;
+  }
+
+  #checkOne {
+    color: #000;
+    font-size: 20px;
+  }
+  #checkOnediv{
+    color: #ed6c44;
+
+  }
+
+  /* #h1 {
+      color: #4c4743;
+  } */
+</style>
+<div class="im-page">
+  <ul id="pages">
+
+  </ul>
+</div>
+<script type="text/javascript" src="../static/js/jquery1.11.3-jquery.min.js" ></script>
+<script type="text/javascript" src="../static/js/browsing.js" ></script>
+<script type="text/javascript" src="../static/js/linkage4.js"></script>
+<script type="text/javascript">
+
+  function doExport(){
+    var ex = "";
+    $.each($('input:checkbox:checked'),function(){
+      if($(this).val()!=''){
+        ex = ex+($(this).val()+",");
+      }
+    });
+    if(ex!=''){
+      window.location="rest/excel/message_export?ex="+ex;
+    }else{
+      alert("请先勾选数据!");
+    }
+  }
+  function nameCheck(){
+    var img1 = $("input:file").val();
+    if(img1==''){
+      alert("请选择文件！");
+      return false;
+    }
+    var img = $("input:file").val().split("\\");
+    var imgName = img[img.length-1];
+    var imgshuzu = imgName.split(".");
+    var imgleixing = imgshuzu[imgshuzu.length-1];
+    if(imgleixing=="xlsx"){
+      $("#excelForm").submit();
+    }else{
+      alert("上传文件格式不正确，请上传2007版本的excel文档");
+      return false;
+    }
+  }
+
+  function nameCheck1(){
+    var img1 = $("#flag").val();
+    if(img1==''){
+      alert("请选择文件！");
+      return false;
+    }
+    var img = $("#flag").val().split("\\");
+    var imgName = img[img.length-1];
+    var imgshuzu = imgName.split(".");
+    var imgleixing = imgshuzu[imgshuzu.length-1];
+    if(imgleixing=="xlsx"){
+      $("#excelForm1").submit();
+    }else{
+      alert("上传文件格式不正确，请上传2007版本的excel文档");
+      return false;
+    }
+  }
+
+  function testyangpin(){
+
+    var msg = "您真的确定要删除吗？";
+    if (confirm(msg)==true){
+      var urlss = "";
+      var ss = $(".testyangpin");
+      for(var i=0 ; i<ss.length;i++){
+        if(ss[i].checked){
+          urlss =urlss+ss[i].value+",";
+        }
+
+      }
+      if(urlss == ""){
+        alert("请选择要删除的信息");
+        return false;
+      }else{
+        location.href = "<%=path%>/rest/deletelists?urlss="+urlss+"";
+        return true;
+      }
+
+
+    }else{
+      return false;
+    }
+
+  }
+  function searchAll(){
+
+    var sample_id = $("#sample_id").val();
+    var pollution_rate=$("#wuranluv").val();
+
+    var toxin_type = $("#toxin_type").val();
+    var crop_species = $("#crop_species").val()
+    ;
+
+    var year = $("#year").val();
+
+
+    var month = $("#month").val();
+    if(month<10){
+      month = "0"+month;
+    }else if(month=="请选择"){
+      month="";
+    }
+    var day = $("#day").val();
+    if(day<10){
+      day = "0"+day;
+    }else if(day=="请选择"){
+      day="";
+    }
+    var sampling_time = year.replace(/\s/g,"")+"-"+month.replace(/\s/g,"")+"-"+day.replace(/\s/g,"");
+    var province = $("#shen option:selected").text();
+    if(province=="请选择"){
+      province="";
+    }
+    var city = $("#shi option:selected").text();
+    if(city=="请选择"){
+      city="";
+    }
+    var county = $("#xian option:selected").text();
+    if(county=="请选择"){
+      county="";
+    }
+
+    console.log(sample_id,pollution_rate,toxin_type,crop_species,sampling_time,province,city,county)
+    location.href = "<%=path%>/rest/tolistim?param1="+sample_id+"&param2="+pollution_rate+"&param3="+toxin_type+"&param4="+crop_species+"&param5="+sampling_time+"&param6="+province+"&param7="+city+"&param8="+county;
+  }
+</script>
+</body>
+</html>
